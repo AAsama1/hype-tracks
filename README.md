@@ -8,8 +8,9 @@ written from scratch for Foundry VTT v13 and v14.
 - Tracks are ordinary playlist sounds, so the GM can see and stop them in the Playlists sidebar.
 - GM-only assignment.
 
-> **Status: 0.3.0, in development.** Hype tracks play automatically on combat turns and are
-> assigned from the actor sheet, the combat tracker or the Actors sidebar. See [PLAN.md](PLAN.md).
+> **Status: 0.3.0, test release.** Hype tracks play automatically on combat turns and are
+> assigned from the actor sheet, the combat tracker or the Actors sidebar. Tested on Foundry
+> 14.369 with dnd5e 5.3.2; v13 is supported but not yet tested. See [PLAN.md](PLAN.md).
 
 ## How it behaves
 

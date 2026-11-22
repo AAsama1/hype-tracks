@@ -51,11 +51,11 @@ prevents several clients from fighting over playback.
 | 1 | Repo skeleton, manifest, release and check workflows | **Done** |
 | 2 | Flag data model, API, managed playlist, console tests | **Done**, core tests pass on 14.369 |
 | 3 | Combat driver: play on turn change, stop on combat end, pause and resume other audio, survive a GM reload | **Done**, tested on 14.369 / dnd5e 5.3.2; PR #1 awaiting code review |
-| 4 | UI: ApplicationV2 config dialog with tracks grouped by playlist and a preview button; actor sheet header button; combat tracker and Actors sidebar context menu entries | In review (PR) |
+| 4 | UI: ApplicationV2 config dialog with tracks grouped by playlist and a preview button; actor sheet header button; combat tracker and Actors sidebar context menu entries | **Done**, tested on 14.369 / dnd5e 5.3.2 |
 | 5 | Settings: fade duration, loop or play once, hidden and defeated combatants. ("Pause other audio" and "no track" behaviour moved into Phase 3.) | |
 | 6 | Maestro migration macro | **Dropped**: Phase 0 found no Maestro data |
 | 7 | Test matrix: v13 and v14, dnd5e plus one other system, linked and unlinked tokens, mid-combat reload, two GMs | |
-| 8 | Release on GitHub, then optionally list on foundryvtt.com | |
+| 8 | Release on GitHub, then optionally list on foundryvtt.com | 0.3.0 test release for a friend; Foundry listing waits until the code review is done |
 
 ### Phase 3 detail (combat driver)
 
