@@ -24,8 +24,10 @@ export class HypeTrackConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     actions: { preview: HypeTrackConfig.#onPreview }
   };
 
+  // Each part must render exactly one top-level element, so the footer is its own part.
   static PARTS = {
-    form: { template: `modules/${MODULE_ID}/templates/config.hbs` }
+    form: { template: `modules/${MODULE_ID}/templates/config.hbs` },
+    footer: { template: `modules/${MODULE_ID}/templates/footer.hbs` }
   };
 
   /** One window per actor (token actors have their own UUID). */

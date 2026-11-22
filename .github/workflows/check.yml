@@ -17,3 +17,5 @@ jobs:
         run: for f in module.json lang/*.json; do jq empty "$f"; done
       - name: Syntax-check scripts
         run: find scripts -name '*.mjs' -print0 | xargs -0 -n1 node --check
+      - name: Templates have one root element
+        run: node .github/scripts/check-templates.mjs templates/*.hbs
