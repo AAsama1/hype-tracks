@@ -51,11 +51,11 @@ prevents several clients from fighting over playback.
 | 1 | Repo skeleton, manifest, release and check workflows | **Done** |
 | 2 | Flag data model, API, managed playlist, console tests | **Done**, core tests pass on 14.369 |
 | 3 | Combat driver: play on turn change, stop on combat end, pause and resume other audio, survive a GM reload | **Done**, tested on 14.369 / dnd5e 5.3.2; PR #1 awaiting code review |
-| 4 | UI: ApplicationV2 config dialog with tracks grouped by playlist and a preview button; actor sheet header button; combat tracker context menu entry | |
+| 4 | UI: ApplicationV2 config dialog with tracks grouped by playlist and a preview button; actor sheet header button; combat tracker and Actors sidebar context menu entries | **Done**, tested on 14.369 / dnd5e 5.3.2 |
 | 5 | Settings: fade duration, loop or play once, hidden and defeated combatants. ("Pause other audio" and "no track" behaviour moved into Phase 3.) | |
 | 6 | Maestro migration macro | **Dropped**: Phase 0 found no Maestro data |
 | 7 | Test matrix: v13 and v14, dnd5e plus one other system, linked and unlinked tokens, mid-combat reload, two GMs | |
-| 8 | Release on GitHub, then optionally list on foundryvtt.com | |
+| 8 | Release on GitHub, then optionally list on foundryvtt.com | 0.3.0 test release for a friend; Foundry listing waits until the code review is done |
 
 ### Phase 3 detail (combat driver)
 
@@ -89,7 +89,10 @@ prevents several clients from fighting over playback.
 | `Playlist#playSound(sound)`, `#stopSound(sound)`, `#playAll()`, `#stopAll()`, `#playNext()` | Verified |
 | `PlaylistSound` fields `playing`, `repeat`, `volume`, `fade`, `pausedTime`, `path` | Verified (names); `pausedTime` semantics unverified |
 | `getHeaderControlsApplicationV2(app, controls)`; entries are `{ icon, label, action, visible, ownership }` with **no onClick**, so the button's `action` must exist in that sheet's `options.actions` | Verified; injection approach to test in Phase 4 |
-| Combat tracker: `CombatTracker#_getEntryContextOptions()` builds combatant menu entries | Verified; **hook name and entry field names unverified**, check in console in Phase 4 |
+| Combat tracker: `CombatTracker#_getEntryContextOptions()` builds combatant menu entries | Verified; **hook name unverified**: both `getCombatantContextOptions` and `getCombatTrackerEntryContext` are registered until the Phase 4 test shows which fires |
+| `ContextMenuEntry` v14: `{ label, icon, visible, onClick(event, target), group, classes }`. v13: `{ name, icon, condition, callback, group, classes }` | Verified (v13 and v14 API docs); built per `game.release.generation` |
+| `getDocumentContextOptions` pattern, e.g. `getActorContextOptions(app, menuItems)` | Verified (v14 docs) |
+| `AudioHelper.play(data, socketOptions)`; `socketOptions: false` plays on this client only | Verified (v14 docs); used for the preview |
 | Flags, settings, document CRUD unchanged in v14 | Per community v13→v14 migration notes |
 | `CONST.PLAYLIST_MODES.DISABLED` (-1, "Soundboard Only") | **Confirmed in 14.369** (Phase 0) |
 | Document hooks `updateCombat`, `create/update/deleteCombatant`, `deleteCombat` | **Confirmed in 14.369** |

@@ -2,10 +2,10 @@
   "id": "hype-tracks",
   "title": "Hype Tracks",
   "description": "Give each actor a theme song that plays automatically when their turn comes up in combat. System-agnostic; built and tested with D&D 5e.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "compatibility": {
     "minimum": "13",
-    "verified": "14"
+    "verified": "14.369"
   },
   "authors": [
     { "name": "Åsmund", "url": "https://github.com/AAsama1" }
@@ -18,7 +18,7 @@
   "socket": false,
   "url": "https://github.com/AAsama1/hype-tracks",
   "manifest": "https://github.com/AAsama1/hype-tracks/releases/latest/download/module.json",
-  "download": "https://github.com/AAsama1/hype-tracks/releases/download/v0.2.0/module.zip",
+  "download": "https://github.com/AAsama1/hype-tracks/releases/download/v0.3.0/module.zip",
   "bugs": "https://github.com/AAsama1/hype-tracks/issues",
   "readme": "https://github.com/AAsama1/hype-tracks/blob/main/README.md",
   "changelog": "https://github.com/AAsama1/hype-tracks/blob/main/CHANGELOG.md",

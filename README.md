@@ -8,8 +8,9 @@ written from scratch for Foundry VTT v13 and v14.
 - Tracks are ordinary playlist sounds, so the GM can see and stop them in the Playlists sidebar.
 - GM-only assignment.
 
-> **Status: 0.2.0, in development.** Hype tracks play automatically on combat turns. Tracks
-> are assigned by macro for now; the configuration dialog comes in Phase 4. See [PLAN.md](PLAN.md).
+> **Status: 0.3.0, test release.** Hype tracks play automatically on combat turns and are
+> assigned from the actor sheet, the combat tracker or the Actors sidebar. Tested on Foundry
+> 14.369 with dnd5e 5.3.2; v13 is supported but not yet tested. See [PLAN.md](PLAN.md).
 
 ## How it behaves
 
@@ -34,11 +35,19 @@ In Foundry: **Add-on Modules → Install Module**, and paste this manifest URL:
 https://github.com/AAsama1/hype-tracks/releases/latest/download/module.json
 ```
 
-## Usage (current, via macro)
+## Usage
 
 1. Enable the module. A **Hype Tracks** playlist is created (Soundboard Only mode).
 2. Add sounds to it, or use any other world playlist.
-3. Assign a track to an actor from a GM macro:
+3. As GM, open **Hype Track** from any of these:
+   - the actor sheet's header menu
+   - right-click a combatant in the combat tracker
+   - right-click an actor in the Actors sidebar
+4. Pick a theme, preview it with ▶ (only you hear the preview), and **Save**.
+
+Opening it from an unlinked token's sheet or combatant gives that one token its own theme.
+
+### From a macro
 
 ```js
 const api = game.modules.get("hype-tracks").api;
@@ -67,6 +76,7 @@ token its own track.
 | `getCurrent()` | The hype track this module is playing, or `null`. |
 | `getState()` | Internal playback state, for debugging. |
 | `getPlaylist()` / `ensurePlaylist()` | The managed playlist. |
+| `openConfig(actor)` | Open the Hype Track window for an actor. GM only. |
 
 `actor` can be an Actor, TokenDocument, Token, Combatant or UUID. `sound` can be a
 PlaylistSound or UUID. The hook `hype-tracks.ready` fires with the API once the world is ready.

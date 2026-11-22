@@ -9,6 +9,7 @@ import { resolveActor, getTrack, getTrackData, hasTrack, setTrack, clearTrack } 
 import { play, stop, end, getCurrent, getState, isActiveGM } from "./core/playback.mjs";
 import { ensurePlaylist, getManagedPlaylist } from "./core/playlist.mjs";
 import { syncCombat } from "./features/hype-track.mjs";
+import { openConfig } from "./ui/config-app.mjs";
 
 export const api = Object.freeze({
   // Assignments
@@ -36,5 +37,9 @@ export const api = Object.freeze({
 
   // Playlist
   getPlaylist: getManagedPlaylist,
-  ensurePlaylist
+  ensurePlaylist,
+
+  // UI
+  /** Open the config window for an actor. GM only. */
+  openConfig
 });
