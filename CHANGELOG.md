@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 (unreleased)
+
+- Hype Track window: choose a theme from any world playlist (grouped, Hype Tracks first), preview it locally, save or clear.
+- Open it from the actor sheet header menu, the combat tracker's right-click menu, or the Actors sidebar's right-click menu. GM only.
+- Works with ApplicationV2 sheets (dnd5e 5.x) and older ApplicationV1 sheets.
+- API: `openConfig(actor)`.
+
 ## 0.2.0 (unreleased)
 
 - Hype tracks play automatically when a combatant's turn starts, and stop when combat ends.

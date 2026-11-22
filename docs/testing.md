@@ -94,3 +94,30 @@ console.log(api.getState());
 console.log(game.playlists.contents.flatMap(p => p.sounds.contents
   .filter(s => s.playing || s.pausedTime).map(s => [p.name, s.name, s.playing, s.pausedTime])));
 ```
+
+## Phase 4: user interface
+
+Before starting, run this **once in the GM console** so we learn which combat tracker hook fires:
+
+```js
+for (const name of ["getCombatantContextOptions", "getCombatTrackerEntryContext"])
+  Hooks.on(name, () => console.log("HOOK FIRED:", name));
+```
+
+| Step | Expected |
+| --- | --- |
+| 1. Open a dnd5e character sheet as GM. Open the sheet's header menu (the "⋮" or controls button). | A **Hype Track** entry with a music icon. |
+| 2. Click it. | A window titled "Hype Track: *name*" opens. The dropdown lists sounds grouped by playlist, with **Hype Tracks** first. If the actor has a theme it's preselected. |
+| 3. Pick a sound and click the ▶ button. | You hear it. A player connected at the same time does **not**. The button turns into ⏹. |
+| 4. Pick a different sound while the preview plays. | The preview stops. |
+| 5. Click ▶ again, then close the window. | The preview stops when the window closes. |
+| 6. Reopen, pick a sound, click **Save**. | The window closes. Reopening shows that sound selected. |
+| 7. Reopen, choose **None**, **Save**. | The theme is removed (reopen shows None). |
+| 8. Right-click a combatant in the combat tracker. | A **Hype Track** entry that opens the window for that combatant. The console shows which `HOOK FIRED:` name(s) ran. |
+| 9. Right-click an actor in the Actors sidebar. | A **Hype Track** entry that opens the window for that actor. |
+| 10. Open the sheet of an unlinked token (double-click the token). | The window shows the note about unlinked tokens; a theme saved here applies to that token only. |
+| 11. Log in as a player and open an owned character sheet. | No Hype Track entry anywhere (sheet, tracker, sidebar). |
+| 12. Open an NPC sheet (a different sheet class from characters). | Same Hype Track entry as step 1. |
+
+Paste back the `HOOK FIRED:` lines from step 8 and any red errors.
+

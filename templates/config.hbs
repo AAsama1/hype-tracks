@@ -1,0 +1,39 @@
+<section class="hype-tracks-body">
+  {{#if isToken}}
+  <p class="hint">{{localize "HYPE_TRACKS.Config.TokenHint"}}</p>
+  {{/if}}
+
+  {{#if noPlaylists}}
+  <p class="hint">{{localize "HYPE_TRACKS.Config.NoPlaylists"}}</p>
+  {{/if}}
+
+  <div class="form-group">
+    <label for="{{selectId}}">{{localize "HYPE_TRACKS.Config.Track"}}</label>
+    <div class="form-fields">
+      <select id="{{selectId}}" name="sound">
+        <option value="">{{localize "HYPE_TRACKS.Config.None"}}</option>
+        {{#each groups}}
+        <optgroup label="{{label}}">
+          {{#each sounds}}
+          <option value="{{uuid}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+          {{/each}}
+        </optgroup>
+        {{/each}}
+      </select>
+      <button type="button" class="hype-tracks-preview icon" data-action="preview"
+              aria-pressed="{{#if previewing}}true{{else}}false{{/if}}"
+              aria-label="{{localize "HYPE_TRACKS.Config.Preview"}}"
+              data-tooltip="{{localize "HYPE_TRACKS.Config.Preview"}}">
+        <i class="fa-solid {{#if previewing}}fa-stop{{else}}fa-play{{/if}}" aria-hidden="true"></i>
+      </button>
+    </div>
+    <p class="hint">{{localize "HYPE_TRACKS.Config.TrackHint"}}</p>
+  </div>
+</section>
+
+<footer class="form-footer">
+  <button type="submit">
+    <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+    <span>{{localize "HYPE_TRACKS.Config.Save"}}</span>
+  </button>
+</footer>

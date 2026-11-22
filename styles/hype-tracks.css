@@ -1,1 +1,23 @@
-/* Hype Tracks styles. Populated in Phase 4 (config dialog). */
+/* Hype Tracks: configuration window */
+
+.hype-tracks-config .hype-tracks-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hype-tracks-config .form-fields select {
+  flex: 1;
+  min-width: 0;
+}
+
+.hype-tracks-config .hype-tracks-preview {
+  flex: 0 0 2rem;
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Make the playing state visible without relying on the icon alone. */
+.hype-tracks-config .hype-tracks-preview[aria-pressed="true"] {
+  outline: 2px solid var(--color-warm-2, #c9593f);
+}
