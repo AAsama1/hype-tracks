@@ -7,6 +7,16 @@
       "AutoPlaylist": {
         "Name": "Create a Hype Tracks playlist",
         "Hint": "When enabled, a \"Hype Tracks\" playlist in Soundboard Only mode is created if it is missing. You can still pick hype tracks from any world playlist."
+      },
+      "PauseOthers": {
+        "Name": "Pause other audio during hype tracks",
+        "Hint": "Pause any other playing sounds while a hype track plays, and resume them from the same spot when it stops."
+      },
+      "NoTrack": {
+        "Name": "When the next combatant has no hype track",
+        "Hint": "What happens to the music when the turn passes to a combatant without a hype track.",
+        "Stop": "Stop the hype track and resume paused audio",
+        "Keep": "Keep the previous hype track playing"
       }
     },
     "Errors": {

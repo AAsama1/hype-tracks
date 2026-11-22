@@ -47,27 +47,38 @@ prevents several clients from fighting over playback.
 
 | Phase | Content | Status |
 | --- | --- | --- |
-| 0 | Ground facts from the target world (versions, playlist modes, any old Maestro flags) | Waiting for console output |
+| 0 | Ground facts from the target world (versions, playlist modes, any old Maestro flags) | **Done**: Foundry 14.369, dnd5e 5.3.2, no Maestro flags |
 | 1 | Repo skeleton, manifest, release and check workflows | **Done** |
-| 2 | Flag data model, API, managed playlist, console tests | **Done (untested in Foundry)** |
-| 3 | Combat driver: play on turn change, stop on combat end, pause and resume other audio, survive a GM reload | Next |
+| 2 | Flag data model, API, managed playlist, console tests | **Done**, core tests pass on 14.369 |
+| 3 | Combat driver: play on turn change, stop on combat end, pause and resume other audio, survive a GM reload | In review (PR) |
 | 4 | UI: ApplicationV2 config dialog with tracks grouped by playlist and a preview button; actor sheet header button; combat tracker context menu entry | |
-| 5 | Settings: pause other audio, fade duration, loop or play once, skip hidden or defeated combatants, "actor with no track" behaviour (stop by default, or keep playing) | |
-| 6 | Maestro migration macro (only if Phase 0 finds old flags) | |
+| 5 | Settings: fade duration, loop or play once, hidden and defeated combatants. ("Pause other audio" and "no track" behaviour moved into Phase 3.) | |
+| 6 | Maestro migration macro | **Dropped**: Phase 0 found no Maestro data |
 | 7 | Test matrix: v13 and v14, dnd5e plus one other system, linked and unlinked tokens, mid-combat reload, two GMs | |
 | 8 | Release on GitHub, then optionally list on foundryvtt.com | |
 
 ### Phase 3 detail (combat driver)
 
-- `combatTurnChange(combat, prior, current)` fires on every client after the update. Only the
-  active GM acts. New turn: `combat.combatant?.actor`, then `play(getTrack(actor))`, or `stop()` if it has none.
-- Also handle `combatStart` (first turn) and `deleteCombat` / combat end (stop and resume other audio).
-- Persist "currently playing hype track" and "what we paused" in a world setting so a GM reload
-  in the middle of combat recovers cleanly.
-- Pausing other audio: record playing sounds and their positions, stop them, and restore them
-  afterwards. Check how core represents a pause (`PlaylistSound#pausedTime`) before relying on it.
-- Edge cases: same actor twice in a row (keep playing), no track (stop by default; setting to keep playing),
-  hidden or defeated combatants, several simultaneous combats (act only for the active/viewed combat).
+- **Triggers.** The core document hooks `updateCombat`, `createCombatant`, `updateCombatant`,
+  `deleteCombatant` and `deleteCombat` fire on every client after the database update; only the
+  active GM acts. `combatStart` is not used because it fires *before* the combat is updated.
+  `combatTurnChange` is not needed, because `updateCombat` already covers turn and round changes.
+- **Idempotent sync.** Every trigger runs one `sync(combat)` that works out what should be playing
+  from the combat's current state. A "turn key" (combat, round, turn, combatant) is stored, and sync
+  only acts when it changes. So repeated hooks don't restart the track, and if the GM stops a track
+  by hand it stays stopped until the next turn.
+- **Serialised.** Sync calls run one at a time through a promise queue, so two hooks firing together
+  can't interleave their playlist updates.
+- **Persistent state.** The combat id, turn key, current hype sound, and the sounds that were paused
+  are kept in a hidden world setting. After a GM reload the module re-syncs, or cleans up if the
+  combat has ended.
+- **Pausing other audio** (setting, on by default): when a hype track starts, every other playing
+  sound is paused with its position (`pausedTime`) and recorded. Those sounds resume when the hype
+  track stops: on a turn with no track, or when combat ends.
+- **No track** (setting): stop by default, which also resumes the paused music. "Keep playing" leaves
+  the previous hype track on.
+- **Hidden combatants** are treated as having no track, so a theme doesn't reveal a hidden creature.
+  This becomes a setting in Phase 5.
 
 ## Verified API facts (from foundryvtt.com/api, v14 docs, 22 Nov 2026)
 
@@ -80,7 +91,10 @@ prevents several clients from fighting over playback.
 | `getHeaderControlsApplicationV2(app, controls)`; entries are `{ icon, label, action, visible, ownership }` with **no onClick**, so the button's `action` must exist in that sheet's `options.actions` | Verified; injection approach to test in Phase 4 |
 | Combat tracker: `CombatTracker#_getEntryContextOptions()` builds combatant menu entries | Verified; **hook name and entry field names unverified**, check in console in Phase 4 |
 | Flags, settings, document CRUD unchanged in v14 | Per community v13→v14 migration notes |
-| `CONST.PLAYLIST_MODES.DISABLED` (-1, "Soundboard Only") | From memory; checked by the Phase 0 script |
+| `CONST.PLAYLIST_MODES.DISABLED` (-1, "Soundboard Only") | **Confirmed in 14.369** (Phase 0) |
+| Document hooks `updateCombat`, `create/update/deleteCombatant`, `deleteCombat` | Unchanged core document hooks; Phase 3 test confirms |
+| `Combat#started`, `Combat#combatant`, `Combatant#hidden` | From memory; Phase 3 test confirms |
+| Pausing with `{playing: false, pausedTime}` and resuming via `Playlist#playSound` keeps the position | **Unverified**; Phase 3 test step 3 checks it |
 
 ## Known risks
 

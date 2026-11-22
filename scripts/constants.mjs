@@ -11,7 +11,16 @@ export const FLAG_SCHEMA = 1;
 
 export const SETTINGS = Object.freeze({
   AUTO_PLAYLIST: "autoCreatePlaylist",
-  PLAYLIST_ID: "playlistId"
+  PAUSE_OTHERS: "pauseOtherAudio",
+  NO_TRACK: "noTrackBehavior",
+  PLAYLIST_ID: "playlistId",
+  STATE: "playbackState"
+});
+
+/** Values of the NO_TRACK setting. */
+export const NO_TRACK = Object.freeze({
+  STOP: "stop",
+  KEEP: "keep"
 });
 
 export const log = (...args) => console.log(`${MODULE_ID} |`, ...args);

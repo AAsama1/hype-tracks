@@ -3,6 +3,7 @@ import { registerSettings } from "./settings.mjs";
 import { api } from "./api.mjs";
 import { isActiveGM } from "./core/playback.mjs";
 import { ensurePlaylist } from "./core/playlist.mjs";
+import { registerHypeTrack, recover } from "./features/hype-track.mjs";
 
 Hooks.once("init", () => {
   try {
@@ -10,6 +11,7 @@ Hooks.once("init", () => {
   } catch (err) {
     error("Failed to register settings.", err);
   }
+  registerHypeTrack();
   game.modules.get(MODULE_ID).api = api;
   log("Initialized.");
 });
@@ -23,5 +25,6 @@ Hooks.once("ready", async () => {
       error("Failed to create the Hype Tracks playlist.", err);
     }
   }
+  recover();
   Hooks.callAll(`${MODULE_ID}.ready`, api);
 });
