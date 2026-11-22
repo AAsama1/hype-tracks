@@ -22,6 +22,10 @@ written from scratch for Foundry VTT v13 and v14.
 - When combat ends, everything is stopped and paused audio resumes.
 - If the GM reloads in the middle of combat, the module picks up where it was.
 
+**Known limitation:** a browser that reloads, or joins, while a hype track is playing hears
+it from the beginning (after its first click, because of browser autoplay rules). This is how
+Foundry plays all audio on load. Everyone else keeps hearing it without a break.
+
 ## Install
 
 In Foundry: **Add-on Modules → Install Module**, and paste this manifest URL:

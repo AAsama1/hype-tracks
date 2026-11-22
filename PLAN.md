@@ -105,4 +105,8 @@ prevents several clients from fighting over playback.
    callback, so the handler has to be registered on the sheet instance. dnd5e AppV2 sheets and
    any remaining AppV1 sheets (`getApplicationV1HeaderButtons`) need separate handling.
 3. **Two GMs connected.** Handled by acting only on `game.users.activeGM`.
-4. **Font Awesome 7 in v14.** Pick icons that exist in both FA6 (v13) and FA7 (v14).
+4. **Reload restarts the track locally (accepted).** A browser that reloads or joins mid-theme starts
+   it from 0, after its first click because of autoplay rules. Core Foundry behaviour, confirmed with a
+   two-client test on 14.369; other clients are unaffected. A possible later fix: store the start time
+   (server clock) and seek on load.
+5. **Font Awesome 7 in v14.** Pick icons that exist in both FA6 (v13) and FA7 (v14).
