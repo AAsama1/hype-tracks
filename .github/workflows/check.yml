@@ -1,0 +1,19 @@
+# Cheap sanity checks on every push: valid JSON and parseable JavaScript.
+name: Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Validate JSON
+        run: for f in module.json lang/*.json; do jq empty "$f"; done
+      - name: Syntax-check scripts
+        run: find scripts -name '*.mjs' -print0 | xargs -0 -n1 node --check

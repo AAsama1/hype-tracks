@@ -1,0 +1,47 @@
+# Publish a GitHub release tagged vX.Y.Z and this workflow stamps module.json with
+# that version and the matching URLs, zips the module, and attaches both files to the
+# release. Foundry installs from:
+#   https://github.com/<owner>/hype-tracks/releases/latest/download/module.json
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+      REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stamp manifest with version and URLs
+        run: |
+          VERSION="${TAG#v}"
+          jq --arg v "$VERSION" --arg repo "$REPO" --arg tag "$TAG" '
+            .version  = $v
+            | .url      = "https://github.com/\($repo)"
+            | .manifest = "https://github.com/\($repo)/releases/latest/download/module.json"
+            | .download = "https://github.com/\($repo)/releases/download/\($tag)/module.zip"
+            | .bugs     = "https://github.com/\($repo)/issues"
+          ' module.json > module.tmp.json
+          mv module.tmp.json module.json
+          cat module.json
+
+      - name: Check id
+        run: test "$(jq -r .id module.json)" = "hype-tracks"
+
+      - name: Build zip
+        run: |
+          paths="module.json README.md CHANGELOG.md LICENSE lang scripts styles"
+          [ -d templates ] && paths="$paths templates"
+          zip -r module.zip $paths
+
+      - name: Attach to release
+        run: gh release upload "$TAG" module.json module.zip --clobber

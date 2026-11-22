@@ -1,0 +1,22 @@
+{
+  "HYPE_TRACKS": {
+    "Playlist": {
+      "Name": "Hype Tracks"
+    },
+    "Settings": {
+      "AutoPlaylist": {
+        "Name": "Create a Hype Tracks playlist",
+        "Hint": "When enabled, a \"Hype Tracks\" playlist in Soundboard Only mode is created if it is missing. You can still pick hype tracks from any world playlist."
+      }
+    },
+    "Errors": {
+      "GMOnly": "Only a GM can change hype tracks.",
+      "NoActor": "Could not find that actor.",
+      "NoSound": "Could not find that playlist sound.",
+      "CompendiumSound": "Hype tracks must come from a playlist in this world, not from a compendium."
+    },
+    "Warnings": {
+      "AutoAdvance": "\"{playlist}\" plays tracks in sequence or shuffled, so when \"{sound}\" finishes on its own Foundry may start the next track in that playlist. Set the playlist to Soundboard Only to prevent this."
+    }
+  }
+}
