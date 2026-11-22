@@ -8,8 +8,23 @@ written from scratch for Foundry VTT v13 and v14.
 - Tracks are ordinary playlist sounds, so the GM can see and stop them in the Playlists sidebar.
 - GM-only assignment.
 
-> **Status: 0.1.0, in development.** The data layer and API work. Automatic playback on
-> combat turns (Phase 3) and the configuration dialog (Phase 4) are next. See [PLAN.md](PLAN.md).
+> **Status: 0.2.0, in development.** Hype tracks play automatically on combat turns. Tracks
+> are assigned by macro for now; the configuration dialog comes in Phase 4. See [PLAN.md](PLAN.md).
+
+## How it behaves
+
+- When a combatant's turn starts, their hype track plays. The previous one stops.
+- Other playing audio is paused while a hype track plays and resumes from the same spot
+  afterwards (setting: *Pause other audio during hype tracks*).
+- On a turn with no hype track, the theme stops and paused audio resumes. A setting can keep
+  the previous theme playing instead.
+- Hidden combatants don't play their theme, so it doesn't give them away.
+- When combat ends, everything is stopped and paused audio resumes.
+- If the GM reloads in the middle of combat, the module picks up where it was.
+
+**Known limitation:** a browser that reloads, or joins, while a hype track is playing hears
+it from the beginning (after its first click, because of browser autoplay rules). This is how
+Foundry plays all audio on load. Everyone else keeps hearing it without a break.
 
 ## Install
 
@@ -46,8 +61,11 @@ token its own track.
 | `hasTrack(actor)` | Boolean. |
 | `clearTrack(actor)` | Remove the assignment. GM only. |
 | `play(actor)` | Play the actor's track (stops the previous hype track). Active GM only. |
-| `stop()` | Stop the current hype track. Active GM only. |
+| `stop()` | Stop the current hype track and resume paused audio. Active GM only. |
+| `end()` | Stop, resume paused audio and forget the current combat. Active GM only. |
+| `sync(combat?)` | Re-check a combat (default: the viewed one) and play the right track. |
 | `getCurrent()` | The hype track this module is playing, or `null`. |
+| `getState()` | Internal playback state, for debugging. |
 | `getPlaylist()` / `ensurePlaylist()` | The managed playlist. |
 
 `actor` can be an Actor, TokenDocument, Token, Combatant or UUID. `sound` can be a
