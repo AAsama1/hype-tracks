@@ -50,7 +50,7 @@ prevents several clients from fighting over playback.
 | 0 | Ground facts from the target world (versions, playlist modes, any old Maestro flags) | **Done**: Foundry 14.369, dnd5e 5.3.2, no Maestro flags |
 | 1 | Repo skeleton, manifest, release and check workflows | **Done** |
 | 2 | Flag data model, API, managed playlist, console tests | **Done**, core tests pass on 14.369 |
-| 3 | Combat driver: play on turn change, stop on combat end, pause and resume other audio, survive a GM reload | In review (PR) |
+| 3 | Combat driver: play on turn change, stop on combat end, pause and resume other audio, survive a GM reload | **Done**, tested on 14.369 / dnd5e 5.3.2; PR #1 awaiting code review |
 | 4 | UI: ApplicationV2 config dialog with tracks grouped by playlist and a preview button; actor sheet header button; combat tracker context menu entry | |
 | 5 | Settings: fade duration, loop or play once, hidden and defeated combatants. ("Pause other audio" and "no track" behaviour moved into Phase 3.) | |
 | 6 | Maestro migration macro | **Dropped**: Phase 0 found no Maestro data |
@@ -92,9 +92,9 @@ prevents several clients from fighting over playback.
 | Combat tracker: `CombatTracker#_getEntryContextOptions()` builds combatant menu entries | Verified; **hook name and entry field names unverified**, check in console in Phase 4 |
 | Flags, settings, document CRUD unchanged in v14 | Per community v13→v14 migration notes |
 | `CONST.PLAYLIST_MODES.DISABLED` (-1, "Soundboard Only") | **Confirmed in 14.369** (Phase 0) |
-| Document hooks `updateCombat`, `create/update/deleteCombatant`, `deleteCombat` | Unchanged core document hooks; Phase 3 test confirms |
-| `Combat#started`, `Combat#combatant`, `Combatant#hidden` | From memory; Phase 3 test confirms |
-| Pausing with `{playing: false, pausedTime}` and resuming via `Playlist#playSound` keeps the position | **Unverified**; Phase 3 test step 3 checks it |
+| Document hooks `updateCombat`, `create/update/deleteCombatant`, `deleteCombat` | **Confirmed in 14.369** |
+| `Combat#started`, `Combat#combatant`, `Combatant#hidden` | **Confirmed in 14.369** |
+| Pausing with `{playing: false, pausedTime}` and resuming via `Playlist#playSound` keeps the position | **Confirmed in 14.369**: music resumes from where it paused |
 
 ## Known risks
 
